@@ -13,7 +13,12 @@ namespace Infrastructure.Database.EntityTypeConfiguration
             builder.HasKey(u => u.Id);
             builder.HasIndex(u => u.Email)
                    .IsUnique();
-         
+            
+            builder.Property(u => u.Role)
+                   .IsRequired();
+                   
+            builder.Property(u => u.ClinicId)
+                   .IsRequired(false);
         }
     }
 

@@ -17,6 +17,11 @@ namespace Infrastructure.Database
     {
         private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
         public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Subscription> Subscriptions { get; set; } = null!;
+        public DbSet<Package> Packages { get; set; } = null!;
+        public DbSet<Feature> Features { get; set; } = null!;
+        public DbSet<PackageFeature> PackageFeatures { get; set; } = null!;
+        public DbSet<Clinic> Clinics { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

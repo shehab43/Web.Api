@@ -1,28 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Entities.BaseEntity;
+using Domain.Entities.Enums;
 
 namespace Domain.Entities.Patients
 {
-    public class Patient:BaseEntity
+    public class Patient : BaseEntity
     {
         public string FullName { get; set; } = string.Empty;
-
+        public string Email { get; set; } = string.Empty;
+        public int Phone { get; set; }
         public Gender Gender { get; set; }
-
-        public int phone { get; set; }
-
         public string Address { get; set; } = string.Empty;
-
-        public int PationtRecordId { get; set; } 
-        public int BookingId { get; set; }
-
-        public ICollection<Booking> bookings {  get; set; } = new List<Booking>();
-        public ICollection<PatientRecords> PatientRecords { get; set; } = new List<PatientRecords>();
-
-
-
+        public DateTime DateOfBirth { get; set; }
+        
+        // Navigation properties
+        public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+        public ICollection<PatientHistory> PatientHistory { get; set; } = new List<PatientHistory>();
     }
 }

@@ -12,7 +12,8 @@ namespace Domain.Entities.Users
         public string FullName { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public int Phone { get; set; }
-        public DateTime SubscriptionDate { get; set; }
-        public DateTime SubscriptionTimeOut { get; set; } 
+        public Role Role { get; set; }
+        public Gender Gender { get; set; }
+        public int? ClinicId { get; set; } // For doctors who are assigned to clinics
     }
 }

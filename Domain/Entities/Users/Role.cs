@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ardalis.SmartEnum;
 
 namespace Domain.Entities.Users
 {
-    public enum Role
+    public sealed class Role : SmartEnum<Role, string>
     {
-        Doctor =0,
-        Nurse = 1,
-        Admin = 2
+        public static readonly Role Doctor = new(nameof(Doctor), "doctor");
+        public static readonly Role Nurse = new(nameof(Nurse), "nurse");
+        public static readonly Role Admin = new(nameof(Admin), "admin");
+
+        private Role(string name, string value) : base(name, value) { }
     }
 }

@@ -1,16 +1,15 @@
-﻿namespace SharedKernel
+﻿using Ardalis.SmartEnum;
+
+namespace SharedKernel
 {
-    public enum ErrorType
+    public sealed class ErrorType : SmartEnum<ErrorType, string>
     {
-        Failure = 0,
+        public static readonly ErrorType Failure = new(nameof(Failure), "failure");
+        public static readonly ErrorType Validation = new(nameof(Validation), "validation");
+        public static readonly ErrorType Problem = new(nameof(Problem), "problem");
+        public static readonly ErrorType NotFound = new(nameof(NotFound), "not_found");
+        public static readonly ErrorType Conflict = new(nameof(Conflict), "conflict");
 
-        Validation = 1,
-
-        Problem =2,
-
-        NotFound=3,
-
-        Confilct=4,
-
+        private ErrorType(string name, string value) : base(name, value) { }
     }
 }

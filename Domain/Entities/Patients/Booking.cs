@@ -15,12 +15,12 @@ namespace Domain.Entities.Patients
         public string PatientName { get; set; } = string.Empty;
         public status Status { get; set; }
         public string Notes { get; set; } = string.Empty;
-        public int  ClincId { get; set; } 
-        public int PatientID { get; set; }
-        public int UserId { get; set; }
-        public Clinc Clinc { get; set; } 
-        public ICollection<Patient> patients = new Collection<Patient>(); 
-        public ICollection<User> users = new Collection<User>();
+        public int  ClinicId { get; set; } 
+        public int PatientId { get; set; } // Patient entity
+        public int UserId { get; set; } // Doctor/Nurse handling the booking
+        public Clinic Clinic { get; set; } 
+        public Patient Patient { get; set; } = null!; // Patient entity
+        public User User { get; set; } = null!; // Doctor/Nurse
 
     }
 }

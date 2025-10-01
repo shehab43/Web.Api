@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ardalis.SmartEnum;
 
 namespace Domain.Entities.Patients
 {
-    public enum status
+    public sealed class Status : SmartEnum<Status, string>
     {
-        Scheduled = 0 ,
-        Done      = 1
+        public static readonly Status Scheduled = new(nameof(Scheduled), "scheduled");
+        public static readonly Status Done = new(nameof(Done), "done");
+
+        private Status(string name, string value) : base(name, value) { }
     }
 }
