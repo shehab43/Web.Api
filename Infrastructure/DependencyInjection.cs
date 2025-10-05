@@ -40,6 +40,7 @@ namespace Infrastructure
             services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
             services.AddScoped<IPackageFeatureService, PackageFeatureService>();
             services.AddScoped<ISubscriptionService, SubscriptionService>();
+            services.AddScoped<IPaymentService, PaymentService>();
             services.ConfigureOptions<EmailSetUp>();
             return services;
         }

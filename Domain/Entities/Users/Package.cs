@@ -9,7 +9,6 @@ namespace Domain.Entities.Users
         public decimal Price { get; set; }
         public int DurationInDays { get; set; }
         public bool IsActive { get; set; } = true;
-        public int SortOrder { get; set; }
         
         // Navigation properties
         public ICollection<PackageFeature> PackageFeatures { get; set; } = new List<PackageFeature>();

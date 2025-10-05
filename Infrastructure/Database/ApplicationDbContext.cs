@@ -22,6 +22,9 @@ namespace Infrastructure.Database
         public DbSet<Feature> Features { get; set; } = null!;
         public DbSet<PackageFeature> PackageFeatures { get; set; } = null!;
         public DbSet<Clinic> Clinics { get; set; } = null!;
+        public DbSet<Service> Services { get; set; } = null!;
+        public DbSet<ServiceSession> ServiceSessions { get; set; } = null!;
+        public DbSet<PaymentTransaction> PaymentTransactions { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -21,13 +21,16 @@ namespace Web.Api.Controllers
             _mediator = mediator;
         }
         [HttpPost]
-        public async Task<IResult> Register([FromBody]Request request)
+        public async Task<IActionResult> Register([FromBody] Request request)
         {
-            var command =new RegisterUserCommand(request.Email, request.FirstName, request.LastName, request.Password);
+            var command = new RegisterUserCommand(request.Email, request.FirstName, request.LastName, request.Password);
             var result = await _mediator.Send(command);
-           
-            return result.IsSuccess ? Results.Ok(result) : result.Problem();
-        }
+            // return result.IsSuccess ? Ok(result) : result.Problem();
+          return result.Match(
+            Results.Ok,
+            result.Problem()
+          );
 
+        }
     }
 }

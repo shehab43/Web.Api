@@ -10,14 +10,15 @@ namespace Infrastructure.Database.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<Clinic> builder)
         {
             builder.HasKey(c => c.Id);
+            builder.HasIndex(c => c.Id);
             
             builder.Property(c => c.Name)
                    .IsRequired()
-                   .HasMaxLength(255);
+                   .HasMaxLength(50);
                    
             builder.Property(c => c.Addrees)
                    .IsRequired()
-                   .HasMaxLength(500);
+                   .HasMaxLength(50);
                    
             builder.Property(c => c.Contacts)
                    .HasConversion(
