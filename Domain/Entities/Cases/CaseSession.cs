@@ -1,36 +1,53 @@
-﻿using Domain.Entities.Users;
-using System;
-using System.Collections.Generic;
+using Domain.Entities.Patients;
+using Domain.Entities.Users;
+using Domain.Entities;
+using Domain.Enums;
 
-namespace Domain.Entities.Accounts
+namespace Domain.Entities.Cases
 {
     public class CaseSession : BaseEntity
     {
+        // Foreign Keys
+        public int ServiceId { get; set; }
+        public Service Service { get; set; } = null!;
 
-        // Clinic
         public int ClinicId { get; set; }
         public Clinic Clinic { get; set; } = null!;
 
-        // Doctor (User with Doctor role)
         public int DoctorId { get; set; }
         public User Doctor { get; set; } = null!;
 
-
-        // Patient (User with Patient role)
         public int PatientId { get; set; }
-        public User Patient { get; set; } = null!;
+        public Patient Patient { get; set; } = null!;
 
+        // Service Session Details
+        public decimal ServicePrice { get; set; } // Price at the time of service (can change over time)
+        public decimal TotalPaid { get; set; } = 0;
+        public decimal RemainingAmount { get; set; }
+        public SessionStatus Status { get; set; } 
+        public DateTime ServiceDate { get; set; }
+        public DateTime? CompletedDate { get; set; }
+        public string Notes { get; set; } = string.Empty;
 
-        public SessionStatus Status { get; set; }
-
-        public decimal TotalAmount { get; set; }
-        public decimal PaidAmount { get; set; }
-
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-    
-        
-        // Payment transactions
+        // Payment Information
         public ICollection<PaymentTransaction> PaymentTransactions { get; set; } = new List<PaymentTransaction>();
+
+        // Calculated Properties
+        public bool IsFullyPaid => RemainingAmount <= 0;
+        public bool IsPartiallyPaid => TotalPaid > 0 && TotalPaid < ServicePrice;
+
+        // Constructor to calculate remaining amount
+        public CaseSession()
+        {
+            CalculateRemainingAmount();
+        }
+
+        public void CalculateRemainingAmount()
+        {
+            RemainingAmount = ServicePrice - TotalPaid;
+        }
+
+      
+        
     }
 }

@@ -1,3 +1,4 @@
+using Domain.Entities.Patients;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Domain.Entities.Users
         public string Password { get; set; } = string.Empty;
         public int Phone { get; set; }
         public Role Role { get; set; }
-        public Gender Gender { get; set; }
+        public Gender Gender { get; set; } = null!;
         public int? ClinicId { get; set; } // For doctors who are assigned to clinics
     }
 }
