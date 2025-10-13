@@ -13,6 +13,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddRouting();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Default", policy =>
+        policy
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services
     .AddPresentation()
@@ -25,22 +33,22 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
-    app.UseSwaggerUI(op => op.SwaggerEndpoint("/openapi/v1.json", ""));
+    app.UseSwagger();
+    app.UseSwaggerUI();
     app.MapScalarApiReference(opt =>
     {
         opt.Title = "Scalar Example";
         opt.Theme = ScalarTheme.Mars;
         opt.DefaultHttpClient = new(ScalarTarget.Http, ScalarClient.Http11);
     });
-
 }
+
 app.UseRequestContextLogging();
 
 app.UseHttpsRedirection();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+app.UseCors("Default");
+
 app.UseAuthorization();
 app.UseExceptionHandler();
 

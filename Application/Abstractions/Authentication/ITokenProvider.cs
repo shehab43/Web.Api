@@ -1,5 +1,4 @@
 ﻿using Domain.Entities.Users;
-using Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

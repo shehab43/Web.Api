@@ -1,55 +1,48 @@
 using Application.Abstractions.Authentication;
-using Azure;
-using Azure.Core;
+using Ardalis.SmartEnum;
 using Domain.Abstractions.Contracts;
 using Domain.Entities.Users;
-using Domain.Users;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using SharedKernel;
-
+using SharedKernel.ViewModels.Users;
 
 namespace Application.UseCases.Users.Command.Register
 {
-    internal sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,Result>
+    internal sealed class RegisterUserCommandHandler(
+        IGenericRepository<User> genericRepository,
+        IGenericRepository<Package> packageRepository,
+        IPasswordHasher passwordHasher
+    ) : IRequestHandler<RegisterUserCommand, Result<RegisterViewModel>>
     {
-        private readonly IGenericRepository<User> _genericRepository;
-        private readonly IPasswordHasher _passwordHasher;
-   
-        private readonly ILogger<RegisterUserCommandHandler> _logger;
-
-        public RegisterUserCommandHandler(
-            IGenericRepository<User> genericRepository,
-            IPasswordHasher passwordHasher,
-          
-            ILogger<RegisterUserCommandHandler> logger
-            )
+        public async Task<Result<RegisterViewModel>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            _genericRepository = genericRepository;
-            _passwordHasher = passwordHasher;
-            _logger = logger;
-        }
-        public async Task<Result> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
-        {
-
-            if (await _genericRepository.AnyAsync(u => u.Email == request.Email)) 
-            {
-                return Result.Failure<RegisterViewModel>(UserErrors.EmailNotUnique);
-            }
-
+            var trimmedEmail = request.RegisterUserDto.Email.Trim().ToLowerInvariant();    
             var user = new User
             {
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Email = request.Email,
-                Password = _passwordHasher.Hash(request.Password)
+                FullName = request.RegisterUserDto.FullName,
+                Email = trimmedEmail,
+                Password = passwordHasher.Hash(request.RegisterUserDto.Password),
+                Gender = Gender.FromName(request.RegisterUserDto.Gender, true),
+                Role = Role.FromName(request.RegisterUserDto.RoleName, true),
+                PackageId = request.RegisterUserDto.PackageId.Value,
             };
-             var users =  await _genericRepository.AddAsync(user);
-             var reslt =  await _genericRepository.SaveChangesAsync(cancellationToken);
-        
-            return Result.Success();
 
+            await genericRepository.AddAsync(user, cancellationToken);
+            await genericRepository.SaveChangesAsync(cancellationToken);
 
+            var viewModel = new RegisterViewModel
+            {
+                Email = user.Email,
+                FullName = user.FullName,
+                RoleName = user.Role.Name,
+                PackageName = user.Package.Name,
+                SubscriptionEndDate = user.GetSubscriptionEndDate(),
+                HasActiveSubscription = user.HasActiveSubscription()
+            };
+
+            return Result.Success(viewModel);
         }
+
+       
     }
-}
+}       

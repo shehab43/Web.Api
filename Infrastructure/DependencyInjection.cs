@@ -5,7 +5,6 @@ using Infrastructure.Data;
 using Infrastructure.Database;
 using Infrastructure.EmailService;
 using Infrastructure.Options;
-using Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.EntityFrameworkCore;
@@ -38,8 +37,6 @@ namespace Infrastructure
         static IServiceCollection AddService(this IServiceCollection services)
         {
             services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
-            services.AddScoped<IPackageFeatureService, PackageFeatureService>();
-            services.AddScoped<ISubscriptionService, SubscriptionService>();
             services.ConfigureOptions<EmailSetUp>();
             return services;
         }

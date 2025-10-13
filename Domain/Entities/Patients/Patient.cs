@@ -1,5 +1,5 @@
-using Domain.Entities.BaseEntity;
-using Domain.Entities.Enums;
+
+using Domain.Entities.Users;
 
 namespace Domain.Entities.Patients
 {

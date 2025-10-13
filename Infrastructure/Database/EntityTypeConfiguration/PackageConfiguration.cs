@@ -27,24 +27,18 @@ namespace Infrastructure.Database.EntityTypeConfiguration
             builder.Property(p => p.IsActive)
                 .HasDefaultValue(true);
                 
-            builder.Property(p => p.SortOrder)
-                .HasDefaultValue(0);
-                
+           
             // Configure relationships
             builder.HasMany(p => p.PackageFeatures)
                 .WithOne(pf => pf.Package)
                 .HasForeignKey(pf => pf.PackageId)
                 .OnDelete(DeleteBehavior.Cascade);
                 
-            builder.HasMany(p => p.Subscriptions)
-                .WithOne(s => s.Package)
-                .HasForeignKey(s => s.PackageId)
-                .OnDelete(DeleteBehavior.Restrict);
+          
                 
             // Indexes
             builder.HasIndex(p => p.Name).IsUnique();
             builder.HasIndex(p => p.IsActive);
-            builder.HasIndex(p => p.SortOrder);
         }
     }
 }

@@ -1,12 +1,11 @@
 ﻿using Domain.Entities.Users;
-using Domain.Entities.BaseEntity;
 
 namespace Domain.Entities.Patients
 {
     public class PatientHistory:BaseEntity
     {
-        public string Diagnosis { get; set; } = string.Empty;
-        public string Treatment { get; set;} = string.Empty;
+        public List<string> Diagnosis { get; set; } = new List<string>();
+        public List<string> Treatment { get; set; } = new List<string>();
 
         public int DoctorId { get; set; } // Doctor
         public User Doctor { get; set; } = null!; // Doctor

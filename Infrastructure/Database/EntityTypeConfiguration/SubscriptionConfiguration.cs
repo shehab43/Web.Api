@@ -16,18 +16,7 @@ namespace Infrastructure.Database.EntityTypeConfiguration
             builder.Property(s => s.IsActive)
                    .IsRequired()
                    .HasDefaultValue(true);
-            
-            // Configure relationship with User
-            builder.HasOne(s => s.User)
-                   .WithMany()
-                   .HasForeignKey(s => s.UserId)
-                   .OnDelete(DeleteBehavior.Cascade);
-                   
-            // Configure relationship with Package
-            builder.HasOne(s => s.Package)
-                   .WithMany(p => p.Subscriptions)
-                   .HasForeignKey(s => s.PackageId)
-                   .OnDelete(DeleteBehavior.Restrict);
+           
         }
     }
 }

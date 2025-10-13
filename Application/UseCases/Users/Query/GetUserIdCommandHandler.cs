@@ -1,6 +1,5 @@
 ﻿using Domain.Abstractions.Contracts;
 using Domain.Entities.Users;
-using Domain.Users;
 using MediatR;
 using SharedKernel;
 using System;
@@ -22,7 +21,19 @@ namespace Application.UseCases.Users.Query
 
         public async Task<Result> Handle(GetUserIdCommand request, CancellationToken cancellationToken)
         {
-            var userExists = await _genericRepository.GetByIdAsync(request.UserId);
+            var userExists = await _genericRepository.GetByIdAsync(request.UserId,cancellationToken);
+                                 //.select(u => new
+                                 //{
+                                 //    u.Id,
+                                 //    u.FullName,
+                                 //    u.Email,
+                                 //    u.Phone,
+                                 //    u.Role,
+                                 //    u.Gender,
+                                 //    u.ClinicId
+                                 //})
+                                 //.firstordefaultasync(cancellationToken);
+                                 
             return userExists is not null ? Result.Success() :
                                             Result.Failure<User>(UserErrors.NotFound(request.UserId));
         }

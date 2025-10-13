@@ -9,10 +9,11 @@ namespace Domain.Entities.Users
         public decimal Price { get; set; }
         public int DurationInDays { get; set; }
         public bool IsActive { get; set; } = true;
-        public int SortOrder { get; set; }
         
         // Navigation properties
         public ICollection<PackageFeature> PackageFeatures { get; set; } = new List<PackageFeature>();
-        public ICollection<Subscription> Subscriptions { get; set; } = new List<Subscription>();
+        
+        // One-to-Many relationship with Users (one package can be assigned to many users)
+        public ICollection<User> Users { get; set; } = new List<User>();
     }
 }

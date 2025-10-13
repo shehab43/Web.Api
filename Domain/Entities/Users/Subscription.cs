@@ -4,12 +4,12 @@ namespace Domain.Entities.Users
 {
     public class Subscription : BaseEntity
     {
-        public int UserId { get; set; }
+        // One-to-One relationship with User (User has SubscriptionId)
         public User User { get; set; } = null!;
-        
+
         public int PackageId { get; set; }
         public Package Package { get; set; } = null!;
-        
+
         public DateTime SubscriptionEndDate { get; set; }
         public bool IsActive { get; set; } = true;
 
@@ -32,7 +32,7 @@ namespace Domain.Entities.Users
         {
             return DateTime.UtcNow > SubscriptionEndDate;
         }
-    }
+
 
         /// <summary>
         /// Checks if the subscription is active and not expired
@@ -42,4 +42,5 @@ namespace Domain.Entities.Users
         {
             return IsActive && !IsExpired();
         }
+    }
 }

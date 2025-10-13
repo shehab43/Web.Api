@@ -17,8 +17,12 @@ namespace Domain.Entities
         public List<KeyValue> Contacts { get; set; } = new List<KeyValue>();
 
         public int DoctorId { get; set; }
-        public Doctor Doctor { get; set; } = null!;
+        public User Doctor { get; set; } = null!;
 
-        public ICollection<User> Staff { get; set; } = new List<User>();
+        public int PackageId { get; set; }
+        public Package Package { get; set; } = null!;
+
+        public bool IsActive { get; set; } = true;
+        public ICollection<User> Staff { get; set; } = new List<User>()!;
     }
 }
