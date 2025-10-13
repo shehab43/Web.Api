@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 
 namespace Application.UseCases.Users.Query
 {
-    public sealed record class GetUserIdCommand(Guid UserId):IRequest<Result>;
+    public sealed record class GetUserIdCommand(int UserId):IRequest<Result>;
    
 }

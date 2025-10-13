@@ -1,19 +1,11 @@
-﻿using Domain.Entities.Users;
-using MediatR;
+﻿using MediatR;
 using SharedKernel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SharedKernel.Dtos.User;
+using SharedKernel.ViewModels.Users;
 
 namespace Application.UseCases.Users.Command.Register
 {
     public sealed record RegisterUserCommand(
-                           string Email, 
-                           string FirstName,
-                           string LastName,
-                           string Password):
-                           IRequest<Result>;
-    
+       RegisterUserRequestDto  RegisterUserDto
+    ) : IRequest<Result<RegisterViewModel>>;
 }

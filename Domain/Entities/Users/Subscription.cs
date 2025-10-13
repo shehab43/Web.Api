@@ -4,7 +4,7 @@ namespace Domain.Entities.Users
 {
     public class Subscription : BaseEntity
     {
-        public int UserId { get; set; }
+        // One-to-One relationship with User (User has SubscriptionId)
         public User User { get; set; } = null!;
 
         public int PackageId { get; set; }

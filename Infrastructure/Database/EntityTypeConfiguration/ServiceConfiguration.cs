@@ -1,4 +1,4 @@
-using Domain.Entities.Services;
+using Domain.Entities.Cases;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -17,23 +17,12 @@ namespace Infrastructure.Database.EntityTypeConfiguration
             builder.Property(s => s.Description)
                 .HasMaxLength(1000);
 
-            builder.Property(s => s.Code)
-                .IsRequired()
-                .HasMaxLength(50);
-
-            builder.Property(s => s.Price)
-                .HasColumnType("decimal(18,2)")
-                .IsRequired();
-
             builder.Property(s => s.Category)
                 .HasMaxLength(100);
 
             builder.Property(s => s.IsActive)
                 .IsRequired()
                 .HasDefaultValue(true);
-
-            builder.HasIndex(s => s.Code)
-                .IsUnique();
 
             builder.HasIndex(s => s.Name);
         }

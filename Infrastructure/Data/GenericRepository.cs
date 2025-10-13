@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Data
@@ -23,7 +24,7 @@ namespace Infrastructure.Data
             _dbSet = appDbContext.Set<TEntity>();
         }
 
-        public async Task<TEntity> AddAsync(TEntity entity)
+        public async Task<TEntity> AddAsync(TEntity entity , CancellationToken cancellationToken)
         {
 
             await _dbSet.AddAsync(entity);
@@ -45,16 +46,19 @@ namespace Infrastructure.Data
             //UpdateInclude(entity,);
         }
 
-        public async Task<bool> DoesEntityExistAsync(Guid id) => await _dbSet.AnyAsync(e => e.Id == id);
+        public async Task<bool> DoesEntityExistAsync(int id) => 
+            await _dbSet.Where(e => !e.IsDeleted).AnyAsync(e => e.Id == id);
 
-        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression)
-        {
-            return await _dbSet.AnyAsync(expression);
-        }
-        public IQueryable<TEntity> GetAll() => _dbSet.Where(e => !e.IsDeleted);
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression , CancellationToken cancellationToken)=>     
+             await _dbSet.Where(e => !e.IsDeleted).AnyAsync(expression);
+        
+        public IQueryable<TEntity> GetAll(CancellationToken cancellationToken) 
+            => _dbSet.Where(e => !e.IsDeleted);
 
-        public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> expression) => GetAll().Where(expression);
-        public async Task<TEntity?> GetByIdAsync(Guid id) => await GetAll().FirstOrDefaultAsync(x => x.Id == id);
+        public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> expression , CancellationToken cancellationToken)
+               => GetAll(cancellationToken).Where(expression);
+        public async Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken) 
+            => await GetAll(cancellationToken).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
         public void UpdateInclude(TEntity entity, params string[] modifiedProperties)
         {

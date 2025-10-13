@@ -1,7 +1,9 @@
 ﻿using Ardalis.SmartEnum;
 
-namespace Domain.Entities.Patients
+namespace Domain.Entities.Users
 {
+    
+
     public sealed class Gender : SmartEnum<Gender, string>
     {
         public static readonly Gender Male = new(nameof(Male), "male");

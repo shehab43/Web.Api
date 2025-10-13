@@ -5,7 +5,7 @@ namespace Web.Api.Infrastructure;
 
 public static class CustomResults
 {
-    public static objectResult Problem(this Result result)
+    public static IResult Problem(this Result result)
     {
         if (result.IsSuccess)
         {

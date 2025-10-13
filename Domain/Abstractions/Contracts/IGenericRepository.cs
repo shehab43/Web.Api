@@ -10,15 +10,15 @@ namespace Domain.Abstractions.Contracts
 {
     public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        Task<TEntity> AddAsync(TEntity entity);
+        Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken);
         Task AddRangeAsync(IEnumerable<TEntity> entities);
         void UpdateInclude(TEntity entity, params string[] modifiedProperties);
-        IQueryable<TEntity> GetAll();
-        IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> expression);
-        Task<TEntity?> GetByIdAsync(Guid id);
+        IQueryable<TEntity> GetAll(CancellationToken cancellationToken);
+        IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
+        Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken);
         void Delete(TEntity entity);
-        Task<bool> DoesEntityExistAsync(Guid id);
-        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression);
+        Task<bool> DoesEntityExistAsync(int id);
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
     }

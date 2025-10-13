@@ -1,9 +1,9 @@
 ﻿using Application.UseCases.Users.Command.Register;
-
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SharedKernel;
+using SharedKernel.Dtos.User;
+using SharedKernel.ViewModels.Users;
 using Web.Api.Extensions;
 using Web.Api.Infrastructure;
 
@@ -11,25 +11,17 @@ namespace Web.Api.Controllers
 {
     [Route("Users")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController(IMediator mediator) : ControllerBase
     {
-        public sealed record Request(string Email, string FirstName, string LastName, string Password);
-        private readonly IMediator _mediator;
+        [HttpPost("register")]
+   
+        public async Task<IResult> Register([FromBody] RegisterUserRequestDto request)
+        {
+            var command = new RegisterUserCommand(request);
 
-        public UsersController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-        [HttpPost]
-        public async Task<IActionResult> Register([FromBody] Request request)
-        {
-            var command = new RegisterUserCommand(request.Email, request.FirstName, request.LastName, request.Password);
-            var result = await _mediator.Send(command);
-            // return result.IsSuccess ? Ok(result) : result.Problem();
-          return result.Match(
-            Results.Ok,
-            result.Problem()
-          );
+            var result = await mediator.Send(command);
+
+            return result.IsSuccess ? Results.Ok(result.Value) : result.Problem();
 
         }
     }

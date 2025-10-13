@@ -1,4 +1,6 @@
 
+using Domain.Entities.Users;
+
 namespace Domain.Entities.Patients
 {
     public class Patient : BaseEntity

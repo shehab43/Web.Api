@@ -1,7 +1,5 @@
 using Domain.Entities.Patients;
 using Domain.Entities.Users;
-using Domain.Entities;
-using Domain.Enums;
 
 namespace Domain.Entities.Cases
 {

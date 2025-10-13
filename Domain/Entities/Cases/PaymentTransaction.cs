@@ -1,4 +1,5 @@
 using Domain.Entities.Users;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities.Cases
